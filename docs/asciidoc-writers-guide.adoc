@@ -323,7 +323,6 @@ Backticks are commonly used around inline code containing markup.
 
 AsciiDoc also recognizes textual representations of symbols, arrows and dashes:
 
-[options="header"]
 |===
 |Name |AsciiDoc Source |As Rendered
 
@@ -360,7 +359,6 @@ $$<- <=$$
 |XML entity (e.g., dagger)
 |$$&#8224;$$
 |&#8224;
-
 |===
 
 This mild punctuation does not take away from the readability of the text.
@@ -551,9 +549,10 @@ Here's how the previous list renders:
 The following table shows the number scheme used by default for each nesting level:
 
 .Ordered list numbering scheme by level
-[cols="^2,3,3,4" options="header"]
+[cols="^2,3,3,4"]
 |===
 |Level |Numbering Scheme |Examples |CSS class (HTML backend)
+
 |1
 |Arabic
 |+1.+ +2.+ +3.+
@@ -1344,55 +1343,54 @@ Since a listing block is typically used for source code, substitutions are not d
 
 The following table identifies the delimited blocks that AsciiDoc provides by default, their purpose and what substitutions are performed on its content.
 
-[cols="1,1m,1,1" options="header"]
+[cols="1,1m,1,1"]
 |===
 |Name (Style) |Line delimiter |Purpose |Substitutions
 
 |comment
 |$$////$$
 |Private notes that are not displayed in the output
-|None
+|none
 
 |example
 |$$====$$
 |Designates example content or defines an admonition block
-|Normal
+|normal
 
 |literal
 |$$....$$
 |Output text to be displayed exactly as entered
-|Verbatim
+|verbatim
 
 |listing, source
 |$$----$$
 |Source code or keyboard input to be displayed as entered
-|Verbatim
+|verbatim
 
 |open
 |$$--$$
 |Anonymous block that can act as any other block (except _pass_ or _table_)
-|Varies
+|varies
 
 |pass
 |$$++++$$
 |Raw text to be passed through unprocessed
-|None
+|none
 
 |quote, verse
 |$$____$$
 |A quotation or verse with optional attribution
-|Normal
+|normal
 
 |sidebar
 |$$****$$
 |Aside text rendered outside the flow of the document
-|Normal
+|normal
 
 |table
 |$$\|===$$
 |Used to display tabular content or advanced layouts
-|Varies
-
+|varies
 |===
 
 IMPORTANT: AsciiDoc allows delimited lines to be longer than 4 characters.
@@ -1403,9 +1401,9 @@ The reader will never see the long delimiters anyway since they are not carried 
 
 This table shows the substitutions performed by each substitution group referenced in the previous table.
 
-[options="header"]
 |===
 |Group     |Special characters |Callouts |Quotes |Attributes |Replacements |Macros |Post replacements
+
 h|Normal   |Yes                |No       |Yes    |Yes        |Yes          |Yes    |Yes
 h|Verbatim |Yes                |Yes      |No     |No         |No           |No     |No
 h|None     |No                 |No       |No     |No         |No           |No     |No
@@ -1629,7 +1627,7 @@ Here's a simple example of a table with two columns and three rows:
 
 [source]
 ----
-[cols=2]
+[cols="2*"]
 |===
 |Firefox
 |Web Browser
@@ -1642,14 +1640,17 @@ Here's a simple example of a table with two columns and three rows:
 |===
 ----
 
-The first non-blank line determines the number of columns.
-Since we are putting each column on a separate line, we have to be explicit about the number of columns in the +cols+ block attribute.
+The first non-blank line inside the block delimiter (+|===+) determines the number of columns.
+Since we are putting each column title on a separate line, we have to use the +cols+ block attribute to explicitly state that this table has two columns.
+The +*+ is the repeat operator. 
+It means to repeat the column specification for the remainder of columns. 
+In this case, it means to repeat no special formatting (since none is present) across 2 columns.
 
 We can make the first row of the table the header by setting the +header+ option on the table.
 
 [source]
 ----
-[cols=2, options="header"]
+[cols="2*", options="header"]
 |===
 |Name
 |Group
@@ -1664,11 +1665,10 @@ We can make the first row of the table the header by setting the +header+ option
 |===
 ----
 
-We could define the header cells on one line so that the +cols+ attribute is not required.
+Alternatively, we could define the header row on a single line offset from the body rows by a blank line so neither the +cols+ or the +options+ attributes are required.
 
 [source]
 ----
-[options="header"]
 |===
 |Name |Group
 
@@ -1685,7 +1685,6 @@ A new cell begins when another non-escaped vertical bar (+|+) is encountered.
 
 [source]
 ----
-[options="header"]
 |===
 |Name |Group |Description
 
@@ -1704,11 +1703,11 @@ performance, portability.
 ----
 
 You can set the relative widths of each column using _column specifiers_{mdash}a comma-separated list of relative values defined in the +cols+ block attribute.
-The number of entries in the list determines the number of columns:
+The number of entries in the list determines the number of columns.
 
 [source]
 ----
-[cols="2,3,5", options="header"]
+[cols="2,3,5"]
 |===
 |Name |Group |Description
 
@@ -1730,7 +1729,7 @@ If you want to include blocks or lists inside the contents of a column, you can 
 
 [source]
 ----
-[cols="2,3,5a", options="header"]
+[cols="2,3,5a"]
 |===
 |Name |Group |Description
 

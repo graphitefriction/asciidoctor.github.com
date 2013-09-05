@@ -1,6 +1,6 @@
 = AsciiDoc Syntax Quick Reference
 Dan Allen; Sarah White
-v1.0.2, 2013-06-13
+v1.0.3, 2013-08-27
 :awestruct-layout: base
 :awestruct-javascripts: [view-result]
 :description: This guide is a quick reference for the common formatting markup and document elements in the AsciiDoc syntax.
@@ -1018,20 +1018,20 @@ end
 ----
 ====
 
-[listing]
+[listing, subs="specialcharacters"]
 .Code block with callouts
 ....
 [source,ruby]
 ----
-require 'sinatra' \<1>
+require 'sinatra' <1>
 
-get '/hi' do      \<2>
-  "Hello World!"  \<3>
+get '/hi' do      <2>
+  "Hello World!"  <3>
 end
 ----
-\<1> Library import
-\<2> URL mapping
-\<3> Content for response
+<1> Library import
+<2> URL mapping
+<3> Content for response
 ....
 
 [.result]
@@ -1413,9 +1413,96 @@ Notice it's a delimited block.
 
 == Tables
 
-.Table with two rows of content and a header
+.Table with four columns, a header, and two rows of content
 ----
-[cols="1,1,2" options="header"]
+.Table of contents attributes and values
+|===
+|Attribute |Value(s) |Example Syntax |Comments <1>
+
+|toc
+|auto
+|+:toc:+
+|DocBook backend uses it by default.
+Disable the TOC with +:toc!:+.
+
+|toc2
+|auto
+|+:toc2:+
+|-
+|===
+----
+
+[.result]
+====
+.Table of contents attributes and values
+|===
+|Attribute |Value(s) |Example Syntax |Comments
+
+|toc
+|auto
+|+:toc:+
+|DocBook backend uses it by default.
+Disable the TOC with +:toc!:+.
+
+|toc2
+|auto
+|+:toc2:+
+|-
+|===
+====
+<1> Unless the +cols+ attribute is specified, the number of columns is equal to the number of vertical bars on the first non-blank line inside the block delimiters
+
+.Table with four columns, a header, and two rows of content
+----
+[cols="4*", options="header"] <1>
+.Table of contents attributes and values
+|===
+|Attribute 
+|Value(s) 
+|Example Syntax 
+|Comments
+
+|toc
+|auto
+|+:toc:+
+|DocBook backend uses it by default.
+Disable the TOC with +:toc!:+.
+
+|toc2
+|auto
+|+:toc2:+
+|-
+|===
+----
+
+[.result]
+====
+[cols="4*", options="header"]
+.Table of contents attributes and values
+|===
+|Attribute 
+|Value(s) 
+|Example Syntax 
+|Comments
+
+|toc
+|none
+|+:toc:+
+|DocBook backend uses it by default.
+Disable the TOC with +:toc!:+.
+
+|toc2
+|none, left or right
+|+:toc2:+
+|By default, +:toc2:+ puts the table of contents on the left side of the page.
+Set the value to right to move it to the right side.
+|===
+====
+<1> The +*+ in the +cols+ attribute is the repeat operator. It means repeat the column specification for the remainder of columns. In this case, it means to repeat the default formatting across 4 columns. When the header row is not defined on a single line, you must use the +cols+ attribute to set the number of columns and +options+ attributes to make the first row a header.
+
+.Table with three columns, a header, and two rows of content
+----
+[cols="1,1,2", options="header"] <1>
 .Applications
 |===
 |Name
@@ -1437,7 +1524,7 @@ Empowers developers to easily create real, automated tests.
 
 [.result]
 ====
-[cols="1,1,2" options="header"]
+[cols="1,1,2", options="header"]
 .Applications
 |===
 |Name
@@ -1456,6 +1543,7 @@ performance, portability.
 Empowers developers to easily create real, automated tests.
 |===
 ====
+<1> In this example, the +cols+ attribute has two functions. It specifies that this table has three columns and sets their relative widths.
 
 .Table with cell containing AsciiDoc content
 ----
@@ -1588,7 +1676,7 @@ IMPORTANT: You *must* set the +experimental+ attribute in the document header to
 
 .Keyboard shortcuts (inline +kbd+ macro)
 ----
-[options="header", caption=""]
+[caption=""]
 .Common browser keyboard shortcuts
 |===
 |Shortcut |Purpose
@@ -1609,7 +1697,7 @@ IMPORTANT: You *must* set the +experimental+ attribute in the document header to
 
 [.result]
 ====
-[options="header", caption=""]
+[caption=""]
 .Common browser keyboard shortcuts
 |===
 |Shortcut |Purpose
@@ -1658,13 +1746,10 @@ Select a file in the file navigator and click btn:[Open].
 
 == Attributes and Substitutions
 
-// use Notation instead of AsciiDoc for first column header?
-[width="50%" cols="1m,1,1" options="header"]
+[width="50%", cols="1m,1,1"]
 .Text replacements
 |===
-|Source
-|Resolves{nbsp}To
-|As{nbsp}Rendered
+|Source |Resolves{nbsp}To |As{nbsp}Rendered
 
 |\(C)
 |\&#169;
@@ -1721,11 +1806,10 @@ Select a file in the file navigator and click btn:[Open].
 
 TIP: Any named, numeric or hex http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references[XML entity reference] is supported.
 
-[width="50%", cols="1m,1", options="header"]
+[width="50%", cols="1m,1"]
 .Built-in literal attributes
 |===
-|Source
-|Resolves{nbsp}To
+|Source |Resolves{nbsp}To
 
 |\{lt}
 |<
@@ -1767,7 +1851,7 @@ TIP: Any named, numeric or hex http://en.wikipedia.org/wiki/List_of_XML_and_HTML
 |;;
 |===
 
-[width="50%", cols="1m,1,1" options="header"]
+[width="50%", cols="1m,1,1", options="header"]
 .Built-in entity attributes
 |===
 |Source
@@ -1828,7 +1912,7 @@ TIP: Any named, numeric or hex http://en.wikipedia.org/wiki/List_of_XML_and_HTML
 |{plus}
 |===
 
-[width="50%", cols="2" options="header"]
+[width="50%", cols="2"]
 .Named substitutions
 none:: Disables substitutions
 
@@ -1922,11 +2006,10 @@ Check out {homepagelink} too!
 
 .Counter attributes
 ----
-[cols="2", options="header", caption=""]
+[caption=""]
 .Parts{counter2:index:0}
 |===
-|Part Id
-|Description
+|Part Id |Description
 
 |PX-{counter:index}
 |Description of PX-{index}
@@ -1938,11 +2021,10 @@ Check out {homepagelink} too!
 
 [.result]
 ====
-[cols="2", options="header", caption=""]
+[caption=""]
 .Parts{counter2:index:0}
 |===
-|Part Id
-|Description
+|Part Id |Description
 
 |PX-{counter:index}
 |Description of PX-{index}
